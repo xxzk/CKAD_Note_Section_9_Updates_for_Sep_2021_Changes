@@ -128,3 +128,33 @@ password123,user1,u0001
 
 <br>
 
+## 123. KubeConfig
+
+<br>
+
+![kube_config_0](kube_config_0.jpg)
+
+▲ 正常來說，透過 `kubectl` 或者 `curl` 來取得 `pod` 的資訊，指令應該長這樣。\
+**<span style='color:blue'>因為使用起來太麻煩了，我們會把這些資訊放在 KubeConfig file  (`$HOME/.kube/config`) 裡面</span>**
+
+<br>
+
+![kube_config_1](kube_config_1.jpg)
+
+▲ config file 裡面包含三個東西: `Cluster`, `Context`, `Users`。而 `Context` 就是串連 `Cluster` 與 `User` 的東西。\
+其實這東西在前面章節的 LAB 就應該要接觸到了 (我記得我的筆記也有打) `kubectl config set-context --current --namespace=` 有印象了吧!
+
+<br>
+
+![kube_config_2](kube_config_2.jpg)
+
+▲ config file 內容是 `YAML` 檔
+
+<br>
+
+![kube_config_3](kube_config_3.jpg)
+
+▲ 使用 `kubectl config use-context <user>@<cluster>` 來切換。
+
+<br>
+
