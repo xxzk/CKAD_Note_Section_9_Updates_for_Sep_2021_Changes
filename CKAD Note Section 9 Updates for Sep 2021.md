@@ -61,3 +61,70 @@
 
 <br>
 
+## 122. Authentication
+
+<br>
+
+本章節的重點會放在三種不同 user 如何透過 Authentication 機制安全的訪問 K8s cluster
+
+
+- K8s cluster admin
+- Developer
+- ~~End User~~ (在這邊被移除，講師認為 sercurity 責任應該在 app 本身)
+- Bots (service account)
+
+<br>
+
+![k8s_account_0](k8s_account_0.jpg)
+
+▲ Kubernetes cluster 原始狀態並沒有提供使用者的功能
+
+<br>
+
+![k8s_account_1](k8s_account_1.jpg)
+
+▲ 不管是透過 `kubectl` 或者 `curl` (不知道是不是就是在說 Dashboard) 都要找 `kube-apiserver`。首先會 (1) Authenticate Users (2) Process request。
+
+<br>
+
+![k8s_account_2](k8s_account_2.jpg)
+
+驗證 (authentication) 的方式有這些:
+
+- Static Password File
+- Static Token File
+- Certificates
+- External service (EX: LDAP)
+
+<br>
+
+### File
+
+前兩項都是以 file 的形式去給定使用者帳號跟密碼。 **<span style='color:red'>兩種都不建議使用</span>**
+
+
+```csv
+## <passwd>,<username>,<user_id>,<group_name>
+password123,user1,u0001
+```
+
+<br>
+
+![k8s_account_3](k8s_account_3.jpg)
+
+▲ 然後在啟動 `kube-apiserver` 的時候傳進去
+
+<br>
+
+![k8s_account_4](k8s_account_4.jpg)
+
+▲ `curl` 搭配 user/passwd 的認證方式
+
+<br>
+
+![k8s_account_5](k8s_account_5.jpg)
+
+▲ `token` 的部分
+
+<br>
+
