@@ -294,3 +294,95 @@ Node Authorizer 是專門給 worker node 與 `api-server` 之間溝通使用。
 
 <br>
 
+## 127. Role Based Access Controls
+
+<br>
+
+建立 `Role` 的方式很簡單，只需要記住 **<span style='color:red'>`--resources=` 與 `--verb=`</span>** 即可。
+
+
+```bash
+kubectl create role role-test --resource=pod --verb=get --verb=list --verb=watch --dry-run=client -o yaml
+```
+
+可以看到 `pod` 自動變成 `pods` 了! 由於 `resource pod` 屬於 `core api` 所以 `.rules.apiGroups[]` 可以是空白。
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  creationTimestamp: null
+  name: role-test
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+```
+
+<br>
+
+![rbac_0](rbac_0.jpg)
+
+▲ 透過指定 `--resource-name` 可以指定對象。
+
+<br>
+
+接著我們要把 `Role` 綁到 user 身上 => rolebinding
+
+
+只需要記住 **<span style='color:red'>`--clusterrole=` 與 `--user=`</span>** 即可。
+
+
+```bash
+kubectl create rolebinding rb-test --clusterrole=role-test --user=beta --dry-run=client -o yaml
+```
+
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  creationTimestamp: null
+  name: rb-test
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: role-test
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: beta
+```
+
+<br>
+
+### 測試權限
+
+
+```bash
+kubectl auth can-i create pod
+kubectl auth can-i delete deployment
+kubectl auth can-i get service
+
+## as user
+kubectl auth can-i create pod --as=beta
+kubectl auth can-i delete deployment --as=beta
+kubectl auth can-i get service --as=beta
+
+## particular namespace
+kubectl auth can-i create pod --as=beta --namespace=say-my
+kubectl auth can-i delete deployment --as=beta --namespace=say-my
+kubectl auth can-i get service --as=beta --namespace=say-my
+```
+
+<br>
+
+## 128. Cluster Roles
+
+<br>
+
