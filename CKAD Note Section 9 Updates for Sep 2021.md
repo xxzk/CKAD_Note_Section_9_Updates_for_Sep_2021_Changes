@@ -386,3 +386,27 @@ kubectl auth can-i get service --as=beta --namespace=say-my
 
 <br>
 
+![diff_between_namespace_and_cluster_scope](diff_between_namespace_and_cluster_scope.jpg)
+
+▲ 首先要先介紹 namespace **<span style='color:red'>ed</span>** 與 Cluster scope 旗下物件的差異。
+
+<br>
+
+![namespaced_true](namespaced_true.jpg)
+
+▲ `kubectl api-resources --namespaced` 可以列出需要 `namespace` 的 K8s resource。\
+反之 `kubectl api-resources --namespaced=false`
+
+<br>
+
+![cluster_role_0](cluster_role_0.jpg)
+
+▲ 舉例: 使用 `clusterrole` 讓 cluster-admin 可以管理 worker-node。**<span style='color:red'>不過 clusterrole 並沒有限定 `resource` 只能是 `namespaced == false` 的物件! 當使用者使用 `clusterrole` 建立 `resource == pod` 的 RBAC 時，等於 `namespace == 所有 K8s cluster 內的 namespace`</span>。**
+
+<br>
+
+![cluster_role_1](cluster_role_1.jpg)
+
+▲ K8s cluster 已經內建許多 `clusterrole`
+
+<br>
