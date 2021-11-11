@@ -335,11 +335,11 @@ rules:
 接著我們要把 `Role` 綁到 user 身上 => rolebinding
 
 
-只需要記住 **<span style='color:red'>`--clusterrole=` 與 `--user=`</span>** 即可。
+只需要記住 **<span style='color:red'>`--role=` 與 `--user=`</span>** 即可。
 
 
 ```bash
-kubectl create rolebinding rb-test --clusterrole=role-test --user=beta --dry-run=client -o yaml
+kubectl create rolebinding rb-test --role=role-test --user=beta --dry-run=client -o yaml
 ```
 
 
@@ -351,7 +351,7 @@ metadata:
   name: rb-test
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
+  kind: Role
   name: role-test
 subjects:
 - apiGroup: rbac.authorization.k8s.io
