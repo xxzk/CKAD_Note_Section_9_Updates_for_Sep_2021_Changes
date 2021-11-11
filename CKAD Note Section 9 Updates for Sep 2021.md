@@ -158,3 +158,56 @@ password123,user1,u0001
 
 <br>
 
+## 125. API Groups
+
+<br>
+
+一直以來 `kubectl` 都是在跟 `api-server` 互動，這個章節要講的是 API Groups。\
+接下來的動作會需要使用 `curl` 跟 `api-server` 互動，達成這個需求最簡單的方式就是使用 `kubectl proxy` 在 localhost 幫我們扮演一個 reverse proxy 的角色，這樣一來就能很簡單的使用 `curl` 不會複雜!
+
+
+[Access Clusters Using the Kubernetes API](https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-api/)
+
+
+```bash
+## run proxy in bg
+kubectl proxy --port=8080 &
+
+## bg -> fg
+fg
+
+## show bg jobs
+jobs
+```
+
+
+```bash
+curl http://localhost:8080/api/
+```
+
+<br>
+
+![api_groups_0](api_groups_0.jpg)
+
+▲ 列出 `api-server` 的 IP address
+
+<br>
+
+![api_groups_1](api_groups_1.jpg)
+
+▲ 列出所有選項
+
+<br>
+
+![api_one_page](api_one_page.jpg)
+
+▲ 一頁式 `api` page 能夠很清楚的知道各個 K8s Object 屬於哪個 API Group
+
+<br>
+
+![api_groups_2](api_groups_2.jpg)
+
+▲ 每個 `Resources` 底下的都有 `Verbs` (動作)
+
+<br>
+
