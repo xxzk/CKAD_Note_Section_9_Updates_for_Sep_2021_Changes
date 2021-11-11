@@ -154,7 +154,7 @@ password123,user1,u0001
 
 ![kube_config_3](kube_config_3.jpg)
 
-▲ 使用 `kubectl config use-context <user>@<cluster>` 來切換。
+▲ 使用 `kubectl config use-context <context_name>` 來切換。
 
 <br>
 
