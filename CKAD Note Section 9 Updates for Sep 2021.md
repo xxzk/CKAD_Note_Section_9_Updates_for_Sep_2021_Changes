@@ -211,3 +211,86 @@ curl http://localhost:8080/api/
 
 <br>
 
+## 126. Authorization
+
+<br>
+
+![authorization_0](authorization_0.jpg)
+
+▲ 本章節目的很簡單，**權限區分**。根據不同使用者給予不同權限
+
+<br>
+
+### Authorization Mode 列表如下:
+
+
+- AlwaysAllow
+- Node
+- ABAC
+- RBAC
+- WebHook
+- AlwaysDeny
+
+<br>
+
+#### Node Authorizer
+
+
+Node Authorizer 是專門給 worker node 與 `api-server` 之間溝通使用。
+
+<br>
+
+![node_mode_0](node_mode_0.jpg)
+
+▲ `kubelet` 必須在 `SYSTEM:NODES` group 裡面 (使用 certification)。
+
+<br>
+
+#### ABAC Authorizer
+
+
+全名: Attribute Base Access Control\
+針對每個 user 設定權限 (1:1 關係)
+
+<br>
+
+![abac](abac.jpg)
+
+▲ 每一次 新增/刪除 都需要重啟 `api-server`。很麻煩，所以有了 RBAC
+
+<br>
+
+#### RBAC Authorizer
+
+
+全名: Role Base Access Control
+
+<br>
+
+![rbac](rbac.jpg)
+
+<br>
+
+#### WebHook Authorizer
+
+
+<br>
+
+![webhook](webhook.jpg)
+
+▲ 其實不難懂，就是透過 webhook 去請外部 server 授權
+
+<br>
+
+![node_mode_1](node_mode_1.jpg)
+
+▲ `api-server` 預設使用 `AlwaysAllow`
+
+<br>
+
+![node_mode_2](node_mode_2.jpg)
+
+▲ 講師建議的配置，會依序授權。授權失敗往下一個，授權成功返回。
+
+<br>
+
