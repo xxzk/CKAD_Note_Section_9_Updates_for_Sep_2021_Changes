@@ -410,3 +410,44 @@ kubectl auth can-i get service --as=beta --namespace=say-my
 ▲ K8s cluster 已經內建許多 `clusterrole`
 
 <br>
+
+## 130. Admission Controllers
+
+<br>
+
+前面兩個 A (Authentication, Authorization) 有點像是控制 `api-server` 的「大門」，Admission controllers 是針對進入大門之後的操作做控制。
+
+<br>
+
+![admission_controller_0](admission_controller_0.jpg)
+
+▲ 講師舉了一個預設開啟的 `NamespaceExists` 當作例子。當我們要在不存在的 `namespace == blue` 建立 `pod` 時會出現錯誤就是因為 Admission controller 當中的 `NamespaceExists == Enabled` 造成的。
+
+<br>
+
+使用 Minikube (docker) 的話，可以透過 `minikube ssh` 登入 control plane。接著 `docker exec -it f099fdd513e0 kube-apiserver --help | grep 'enable-admission-plugins'`\
+或者使用
+
+
+```bash
+## PLEASE NOTICE, the pod name won't the same
+kubectl exec kube-apiserver-mini-k8s -n kube-system -- kube-apiserver --help | grep 'enable-admission-plugins'
+```
+
+<br>
+
+K8s cluster 預設開啟以下 plugin:
+
+
+```man
+--enable-admission-plugins strings       admission plugins that should be enabled in addition to default enabled ones (NamespaceLifecycle, LimitRanger, ServiceAccount, TaintNodesByCondition, Priority, DefaultTolerationSeconds, DefaultStorageClass, StorageObjectInUseProtection, PersistentVolumeClaimResize, RuntimeClass, CertificateApproval, CertificateSigning, CertificateSubjectRestriction, DefaultIngressClass, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, ResourceQuota).
+```
+
+<br>
+
+![admission_controller_1](admission_controller_1.jpg)
+
+▲ 講師示範開啟 `NamespaceAutoProvision`，當 `namespace` 不存在時會自動建立。
+
+<br>
+
