@@ -531,3 +531,18 @@ Admission Controllers 分為兩種形式:
 ▲ 開啟 alpha version。
 
 <br>
+
+## 135. API Deprecations
+
+<br>
+
+[Kubernetes Deprecation Policy](https://kubernetes.io/docs/reference/using-api/deprecation-policy/) 這個章節在講發布 api version 的規則，有興趣的自己去翻官網吧!\
+**<span style='color:blue'>本章的重點只有一個: `kubectl convert` 轉換 YAML file 使用的 api version。</span>**
+
+<br>
+
+![api_deprecation_0](api_deprecation_0.jpg)
+
+▲ 如果沒辦法使用 `kubectl convert` 的話需要安裝 plug-in。 [Install kubectl convert plugin](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-kubectl-convert-plugin)
+
+<br>
