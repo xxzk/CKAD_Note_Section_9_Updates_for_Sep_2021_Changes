@@ -451,3 +451,83 @@ K8s cluster 預設開啟以下 plugin:
 
 <br>
 
+## 132. Validating and Mutating Admission Controllers
+
+<br>
+
+Admission Controllers 分為兩種形式:
+
+- Validation: 驗證
+- Mutating: 自動補齊
+
+<br>
+
+![mutation_admission_controller](mutation_admission_controller.jpg)
+
+▲ Mutating (變種、變異) Admission controller 能夠自動幫我們補齊 YAML file 當中遺漏的 key-value。上圖是以漏寫 `storageClassName` 為例子。
+
+
+**<span style='color:red'>一般來說 Mutating 的順序會在 Validation 前面。**
+
+<br>
+
+內建的用不夠 ? 沒關係，可以使用 Webhook 外包:
+
+
+- MutatingAdmission Webhook
+- ValidationAdmission Webhook
+
+<br>
+
+![admission_webhook_0](admission_webhook_0.jpg)
+
+▲ 以 `JSON` format 傳送請求，外包 server 也會以 `JSON` 回應回來。
+
+<br>
+
+![admission_webhook_1](admission_webhook_1.jpg)
+
+▲ webhook server 當然可以被建在 K8s cluster 裡面 (如左圖)，接著我們必須建立 `ValidatingWebhookConfiguration` 或者 `MutatingWebhookConfiguration` (如右圖)
+
+
+~~乾~ 考試的時候不知道會不會這麼硬~~
+
+<br>
+
+**LAB Tips: 建立 TLS secret `kubectl create secret tls webhook-server-tls --cert /root/keys/webhook-server-tls.crt --key /root/keys/webhook-server-tls.key --dry-run=client -o yaml`，<span style='color:red'>記住 `--cert`, `--key`</span>**
+
+<br>
+
+## 134. API Versions
+
+<br>
+
+![api_version_0](api_version_0.jpg)
+
+▲ 只有 **<span style='color:red'>Alpha 預設是 Disabled</span>** 的
+
+<br>
+
+同一個 api group 可以有很多版本，但只會有一個版本被設定成 **<span style='color:blue'>preferred</span>** 和 **<span style='color:green'>storage</span>**
+
+<br>
+
+![api_version_1](api_version_1.jpg)
+
+▲ 當下達 `kubectl get deployment` 或者 `kubectl explain deployment` 使用的 api version 即為 **<span style='color:blue'>preferred version。</span>**\
+**<span style='color:green'>storage version</span>** 是以哪個版本儲存在 `etcd` 裡 (即使你的 YAML file 使用其他版本，都會被轉換)。
+
+<br>
+
+![api_version_2](api_version_2.jpg)
+
+▲ 使用 `curl` 查詢 **<span style='color:blue'>preferred</span>** api version。\
+**<span style='color:green'>storage version</span>** 現階段只能透過 query etcd 查詢。
+
+<br>
+
+![api_version_3](api_version_3.jpg)
+
+▲ 開啟 alpha version。
+
+<br>
