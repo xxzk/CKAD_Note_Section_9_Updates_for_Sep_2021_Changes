@@ -653,3 +653,46 @@ spec:
 <br>
 
 
+## 138. Custom Controllers
+
+<br>
+
+[kubernetes/sample-controller](https://github.com/kubernetes/sample-controller) 官方提供以 Golang 撰寫的 controller 範本。
+
+<br>
+
+## 139. Operator Framework
+
+<br>
+
+> Operators are software extensions to Kubernetes that make use of custom resources to manage applications and their components. Operators follow Kubernetes principles, notably the control loop.
+
+
+**<span style='color:blue'>總之 Operator Framwork 就是一個 Operator 框架 (~~在講廢話逆~~) 方便讓使用者 擴充/管理 客製化的 resources。</span>**
+
+
+- [[HWChiu] Kubernetes - Operator Pattern 介紹](https://www.hwchiu.com/k8s-operator-pattern.html)
+- [[講師推薦] Operatorhub.io](https://operatorhub.io/)
+
+<br>
+
+講師感覺就很簡單的帶過這個章節~ 單純介紹而已吧!
+
+<br>
+
+## 140. Deployment Strategy - Blue Green
+
+<br>
+
+在之前的章節有介紹過 rolling upgrade，這種部屬策略不會像 re-create 一樣把舊的 `pod` 一次全部刪除，而是 one by one 的替換，使服務不中斷。\
+**Blue Green** 部屬策略則是先將新版本 部屬、測試 後，**<span style='color:red'>透過 edit `service` `selector` 的方式將流量導過去</span>**\
+講完，沒了!
+
+<br>
+
+![blue_green](blue_green.jpg)
+
+▲ Blue Green 部屬策略
+
+<br>
+
