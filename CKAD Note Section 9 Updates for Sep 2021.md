@@ -546,3 +546,110 @@ Admission Controllers 分為兩種形式:
 ▲ 如果沒辦法使用 `kubectl convert` 的話需要安裝 plug-in。 [Install kubectl convert plugin](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-kubectl-convert-plugin)
 
 <br>
+
+## 137. Custom Resource Definition
+
+<br>
+
+這個章節介紹的 `CRD` 用途是讓我們自定 Kubernetes resources (前面筆記有時候可能被我稱為 K8s 元件)。\
+**<span style='color:red'>`CRD` 只是可以讓 custom resources 資訊可以被放入 `etcd` 這個 key-value database 當中</span>** 實際上要「動作」必須還要有 Controller。
+
+<br>
+
+![crd_0](crd_0.jpg)
+
+▲ controller 負責 monitorion `etcd` **然後依據變化執行動作。**
+
+<br>
+
+![crd_1](crd_1.jpg)
+
+▲ 眾多 resources 與 controllers
+
+<br>
+
+假設今天我們想創建一個 `FlightTicket` 物件來幫我們訂機票
+
+<br>
+
+![crd_2](crd_2.jpg)
+
+▲ ~~好久沒看到台灣廉航福利社發機票文喔~~
+
+<br>
+
+```yaml
+apiVersion: flights.com/v1
+kind: FlightTicket
+metadata:
+  name: my-flight-ticket
+spec:
+  from: TPE
+  to: KIX
+  number: 2
+```
+
+<br>
+
+![crd_3](crd_3.jpg)
+
+▲ 因為沒有 `CRD` 的關係，所以這個 resource 被拒絕惹
+
+<br>
+
+```yaml
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # name must match the spec fields below, and be in the form: <plural>.<group>
+  name: flighttickets.flights.com
+spec:
+  # group name to use for REST API: /apis/<group>/<version>
+  group: flights.com
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+    - name: v1
+      # Each version can be enabled/disabled by Served flag.
+      served: true
+      # One and only one version must be marked as the storage version.
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                from:
+                  type: string
+                to:
+                  type: string
+                number:
+                  type: integer
+  # either Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: flighttickets
+    # singular name to be used as an alias on the CLI and for display
+    singular: flightticket
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: FlightTicket
+    # shortNames allow shorter string to match your resource on the CLI
+    shortNames:
+    - ft
+```
+
+<br>
+
+~~各項上面都有註解，我就不多做解釋了~~
+
+<br>
+
+![crd_4](crd_4.jpg)
+
+▲ 有了 `CRD` resource 就可以成功被建立!
+
+<br>
+
+
