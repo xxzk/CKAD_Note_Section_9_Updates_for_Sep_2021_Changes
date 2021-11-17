@@ -717,3 +717,45 @@ canary deployment - 金絲雀部屬，做法是將新版 app 部屬一小部分�
 
 <br>
 
+## 143. Helm Introduction
+
+<br>
+
+假設今天要透過 Kubernetes 架設 WordPress 我們需要....
+
+- WordPress pod/deployment
+- secret (儲存設定時的機敏資訊)
+- Persistant Volume (PV)
+- Persistant Volume Cliam (PVC)
+- service (對外服務)
+
+<br>
+
+所需的 resources 很碎片化，可是又牽一髮動全身的感覺，各個 resoruce 環環相扣...\
+部屬麻煩、客製化修改麻煩、更新麻煩，什麼都很麻煩! 所以有了 Helm 這個 **<span style='color:blue'>package manager</span>** (登楞!
+
+<br>
+
+Helm 一樣保有 K8s deployment 的特性，可以
+
+```bash
+helm install wordpress
+helm upgrade wordpress
+helm delete wordpress
+```
+
+<br>
+
+![helm_values](helm_values.jpg)
+
+▲ Helm 設定值都在 `values.yml` 裡面了
+
+<br>
+
+### Install Helm
+
+
+[Installing Helm](https://helm.sh/docs/intro/install/)
+
+<br>
+
