@@ -696,3 +696,24 @@ spec:
 
 <br>
 
+## 141. Deployment Strategy - Canary
+
+<br>
+
+canary deployment - 金絲雀部屬，做法是將新版 app 部屬一小部分。什麼意思呢? 看圖~
+
+<br>
+
+![canary_deployment](canary_deployment.jpg)
+
+▲ canary deployemt
+
+<br>
+
+要解決的兩件事:
+
+- `service` 將流量同時導到兩個 `deployment`。所以我們需要 **<span style='color:red'>在兩個 `deployment` 擁有一個相同的 label，而且 `service` `selector` 也只能有相同的部分</span>**
+- 只將小部分流量導到新版。這個部分透過控制新版 `replicas` 達成 (若要精準控制百分比，需要 [Istio](https://istio.io/latest/about/service-mesh/) 或類似服務幫忙)
+
+<br>
+
