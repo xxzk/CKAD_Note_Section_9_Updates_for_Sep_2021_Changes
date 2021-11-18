@@ -757,5 +757,99 @@ helm delete wordpress
 
 [Installing Helm](https://helm.sh/docs/intro/install/)
 
+
+```bash
+## bash completion
+helm completion bash > /etc/bash_completion.d/helm
+```
+
+<br>
+
+## 146. Helm Concepts
+
+<br>
+
+要使用 Helm 之前，必須把 Kubernetes resources YAML file 裡面的值變成變數 => **<span style='color:blue'>這個 YAML file 被稱為 Template</span>**\
+使用者只須要在 `values.yaml` 設定參數即可~\
+串聯打包這些東西的東西叫做 **<span style='color:red'>`Chart.yaml`</span>**
+
+
+> Helm uses a packaging format called charts. A chart is a collection of files that describe a related set of Kubernetes resources.
+
+
+<br>
+
+![helm_template](helm_template.jpg)
+
+▲ 由 bitnami 出產的 WordPress Helm template。 [source](https://github.com/bitnami/charts/blob/master/bitnami/wordpress/templates/deployment.yaml)
+
+<br>
+
+![helm_value_wordpress](helm_value_wordpress.jpg)
+
+▲ 由 bitnami 出產的 WordPress Helm `values.yaml`。 [soruce](https://github.com/bitnami/charts/blob/master/bitnami/wordpress/values.yaml)
+
+<br>
+
+![helm_chart](helm_chart.jpg)
+
+▲ 由 bitnami 出產的 WordPress Helm `Chart.yaml`。 [source](https://github.com/bitnami/charts/blob/master/bitnami/wordpress/Chart.yaml)
+
+<br>
+
+### Helm repo
+
+
+安裝完 `helm` 預設是沒有任何 repositry 的~ 就來新增吧! bitnami 是 VMware 創立的，另外一個是開源 for CNCF 的 [ArtifactHub.io](https://artifacthub.io/) (給我的感覺是比交偏包山包海、路人甲乙都能上傳自己的 chart)
+
+
+```bash
+helm repo add bitnami https://charts.bitnami.com/bitnami
+```
+
+<br>
+
+![helm_repo_add](helm_repo_add.jpg)
+
+▲ 新增 `helm` repo
+
+<br>
+
+![helm_search](helm_search.jpg)
+
+▲ 透過 `helm search repo` 使用剛剛加入的 bitnami 搜尋 package。
+
+<br>
+
+### How to install package
+
+
+```bash
+## helm install <release-name> <chart>
+helm install my-release bitnami/wordpress
+```
+
+<br>
+
+![helm_install_release](helm_install_release.jpg)
+
+▲ 各個 `release` 各自獨立
+
+<br>
+
+### Helm 常用指令
+
+
+```bash
+## list all release
+helm list
+
+## uninstall
+helm uninstall <release-name>
+
+## just download package NOT install
+helm pull --untar bitnami/nginx
+```
+
 <br>
 
