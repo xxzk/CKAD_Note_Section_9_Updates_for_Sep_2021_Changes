@@ -761,6 +761,9 @@ helm delete wordpress
 ```bash
 ## bash completion
 helm completion bash > /etc/bash_completion.d/helm
+
+## sourced it right now.
+source <(helm completion bash)
 ```
 
 <br>
@@ -805,6 +808,7 @@ helm completion bash > /etc/bash_completion.d/helm
 
 ```bash
 helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo list
 ```
 
 <br>
@@ -849,6 +853,15 @@ helm uninstall <release-name>
 
 ## just download package NOT install
 helm pull --untar bitnami/nginx
+
+## rollback
+helm rollback <release name>
+
+## show Chart variables
+helm show values bitnami/apache | grep 'replica'
+
+## set replica (in namespace 'mercury')
+helm -n mercury install internal-issue-report-apache bitnami/apache --set replicaCount=2
 ```
 
 <br>
