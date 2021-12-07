@@ -866,3 +866,30 @@ helm -n mercury install internal-issue-report-apache bitnami/apache --set replic
 
 <br>
 
+
+## Kill.sh 筆記
+
+<br>
+
+這邊會記錄做完 kill.sh 的模擬考後 (~~心虛~~) 需要再加強的地方 or 小技巧。如果能找到相對應的章節 (例如: Helm) 就會在該章節補充；反之找不到適合的地方就會放在這邊。
+
+<br>
+
+### 利用 `pod` 裡面的 command 執行指令
+
+
+```bash
+kubectl run tmp --image=nginx:alpine --rm -i -- curl https://ipinfo.io/
+
+## visit svc like this. http://<svc name>.<namespace>:<port>
+curl http://project-plt-6cc-svc.pluto:3333
+```
+
+
+**<span style='color:red'>`--rm` 與 Docker 一樣，使用後即拋棄。 `-i` 開啟 tty 互動介面。 `--` 不加的話會被當前 shell 解析。</span>**
+
+<br>
+
+![tmp_pod_using_command](tmp_pod_using_command.jpg)
+
+<br>
