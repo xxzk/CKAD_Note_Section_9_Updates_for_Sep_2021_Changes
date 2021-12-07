@@ -893,3 +893,26 @@ curl http://project-plt-6cc-svc.pluto:3333
 ![tmp_pod_using_command](tmp_pod_using_command.jpg)
 
 <br>
+
+### 使用 `docker` 與 `podman`
+
+
+大部分情況 `docker` 與 `podman` syntax 很接近~
+
+
+```bash
+## docker multi tags
+sudo docker build -t registry.killer.sh:5000/sun-cipher:latest -t registry.killer.sh:5000/sun-cipher:v1-docker .
+
+## pod man build image
+podman build -t registry.killer.sh:5000/sun-cipher:v1-podman .
+
+## podman run container
+podman run -d --name sun-cipher registry.killer.sh:5000/sun-cipher:v1-podman
+
+## podman show process
+podman ps
+
+## podman logs
+podman logs sun-cipher
+```
