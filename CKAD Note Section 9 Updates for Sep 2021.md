@@ -916,3 +916,21 @@ podman ps
 ## podman logs
 podman logs sun-cipher
 ```
+
+<br>
+
+## Restart Deployment
+
+
+```bash
+kubectl rollout restart deployment my-nginx
+```
+
+<br>
+
+![restart_deployment](restart_deployment.jpg)
+
+▲ `restart` 的方式是先產生一個新的 `pod` 再把舊的砍掉。
+
+<br>
+
