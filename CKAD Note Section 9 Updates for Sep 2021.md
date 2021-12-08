@@ -934,3 +934,11 @@ kubectl rollout restart deployment my-nginx
 
 <br>
 
+## `service` 除錯
+
+<br>
+
+**<span style='color:red'>`svc.spec.selector` 是指向 `pod` 的 labels 而不是 `Deployment` 的!!</span>**
+
+<br>
+
